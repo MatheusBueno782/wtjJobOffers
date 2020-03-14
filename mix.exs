@@ -33,6 +33,7 @@ defmodule WtjJobOffers.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:nimble_csv, "~> 0.7.0"},
       {:topo, "~> 0.4.0"},
       {:phoenix, "~> 1.4.15"},
       {:phoenix_pubsub, "~> 1.1"},
