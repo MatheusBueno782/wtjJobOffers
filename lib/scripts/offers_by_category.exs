@@ -145,17 +145,17 @@ id2group =
   File.stream!("data/technical-test-professions.csv")
   |> MyParser.parse_stream()
   |> Enum.reduce(%{}, fn [id, _, group], acc ->
-    Map.put(acc, id, group)
+    Map.put(acc, id, String.upcase(group))
   end)
-  |> IO.inspect()
+  #|> IO.inspect()
 
 # build the frequece map that will be used to draw the table
 frequency_map =
   File.stream!("data/technical-test-jobs.csv")
   |> MyParser.parse_stream()
   |> Enum.reject(fn line -> "" in line end)
-  |> Enum.reduce(%{"TOTAL" => 0}, fn [prof_id, _, _, lat, long], acc ->
-    IO.inspect({prof_id, String.to_float(lat), String.to_float(long)})
+  |> Enum.reduce(%{}, fn [prof_id, _, _, lat, long], acc ->
+    #IO.inspect({prof_id, String.to_float(lat), String.to_float(long)})
 
     case get_continent.(%{
            type: "Point",
@@ -167,13 +167,25 @@ frequency_map =
       continent ->
         group = id2group[prof_id]
 
-        Map.update(acc, continent, %{group => 1, "TOTAL" => 1}, fn groups ->
+        Map.update(acc, continent, %{"" => continent, "TOTAL" => 1,group => 1}, fn groups ->
           Map.update(groups, group, 1, &(&1 + 1))
           # continent's total
           |> Map.update!("TOTAL", &(&1 + 1))
         end)
-        # global total
-        |> Map.update!("TOTAL", &(&1 + 1))
+        # group totals
+        |> Map.update("TOTAL",%{""=> "TOTAL", "TOTAL" => 1,group => 1}, fn totals -> 
+          Map.update(totals,group,1,&(&1 + 1))
+          # global total
+          |> Map.update!("TOTAL", &(&1 + 1))
+        end)
     end
   end)
-  |> IO.inspect()
+  # build table << Scribe saves lifes >>
+frequency_map
+  |> Map.values
+  |> Scribe.format(style: Scribe.Style.Pseudo)
+  |> String.replace("\""," ")
+  |> String.replace("nil",IO.ANSI.yellow() <> "0" <> "  ")
+  |> IO.puts 
+
+
