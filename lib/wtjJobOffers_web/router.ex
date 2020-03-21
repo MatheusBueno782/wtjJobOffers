@@ -13,14 +13,10 @@ defmodule WtjJobOffersWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", WtjJobOffersWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-  end
 
   # Other scopes may use custom stacks.
-  # scope "/api", WtjJobOffersWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", WtjJobOffersWeb do
+    pipe_through :api
+  end
+
 end
