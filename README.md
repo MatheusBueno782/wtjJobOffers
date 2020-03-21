@@ -10,6 +10,28 @@
 
 >  **Usage:** `mix run lib/scripts/offers_by_category.exs`
 
+### Second Exercise
+
+Elixir is naturally built to deal with a lot data and i/o. In the context of the reflection  proposed by this exercise and assuming:
+-  new offers are added by calling an pre-existent API endpoint.
+- When the API is called it logs the updated table(in the same format of the first exercise)
+- we have to stock all new data in a data base.
+
+We can certainly affirm there will be two bottlenecks in our application, both related to reading and writing in our database. 
+
+The write problem can be solved by using Elixir's **tasks** or **workers**  to paralelize the writing process. Since **nimble_csv** returns a list, a `Task.async_stream/3` should do the job.
+
+The get problem is a bit more complex. In order to build the table we have to perform a get_all in our database, as it grows linearly with time even if we paralelize this operation it will eventually not be enough. So the best option here is to create a **GenServer** who dumps the database into an **ets** table and updates it periodically. Our get_all will then be performed in our ets table and no more directly in our database.    
+
+ This approach have many advantages:
+- The update cost is constant since the database linearly grows in size.
+- get elements in ets tables is extremely fast.
+-  `:ets.lookup/2` and `:ets.insert/2` costs are constant.  
+
+The limitations of this approach are: 
+   - A new offer will only be outputted after a time period ( equal to the update period in the worst case).
+   - Ets tables are not persistent and are stored in your ram, so it can't grow forever.
+
  ### Dependencies 
 -  [pkinney](https://github.com/pkinney)/**[topo](https://github.com/pkinney/topo)**
  A Geometry library for Elixir that calculates spatial relationships between two geometries
