@@ -3,6 +3,6 @@ defmodule WtjJobOffersWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
-    assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+    assert conn.resp_body == "Welcome to offers API!"
   end
 end

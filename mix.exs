@@ -34,7 +34,7 @@ defmodule WtjJobOffers.MixProject do
   defp deps do
     [
       {:nimble_csv, "~> 0.7.0"},
-        {:scribe, "~> 0.10.0"},
+      {:scribe, "~> 0.10.0"},
       {:topo, "~> 0.4.0"},
       {:phoenix, "~> 1.4.15"},
       {:phoenix_pubsub, "~> 1.1"},
