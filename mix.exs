@@ -41,6 +41,7 @@ defmodule WtjJobOffers.MixProject do
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
+      # geocalc is outdated and bugged on hex :|
       {:geocalc, git: "https://github.com/yltsrc/geocalc.git"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},

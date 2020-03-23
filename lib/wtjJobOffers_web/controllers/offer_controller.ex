@@ -26,8 +26,8 @@ defmodule WtjJobOffersWeb.OfferController do
   end
 
   def show(conn, %{"lat" => lat, "long" => long, "radius" => r}) do
-    lat = String.to_float(lat)
-    long= String.to_float(long)
+    {lat,_} = Float.parse(lat)
+    {long,_} = Float.parse(long)
     {r,_} =  Float.parse(r)
 
     response = Jobs.list_offers_inside(lat,long,r)

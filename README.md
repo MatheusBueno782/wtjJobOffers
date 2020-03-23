@@ -1,8 +1,8 @@
-# WELCOME TO THE JUNGLE TECHNICAL TEST
+## WELCOME TO THE JUNGLE TECHNICAL TEST
 ### Description
 
-> This application implements the spec presented by **Welcome to the Jungle**.  The development  language chosen is **Erlang/Elixir** for the capacity it has to deal with a high amount of data, the maintainability, error resilience.    
->   
+> This application implements the spec presented by **Welcome to the Jungle**.  The development  language chosen is **Erlang/Elixir** for the capacity it has to deal with a high amount of data, the maintainability, error resilience. To create the api required at the third exercise the **Phoenix** framework was chosen for its simplicity and mature documentation.   
+
 ### First Exercise 
 > The script **offers_by_category.exs**  display a formatted table containing the amount of job offers by continent.
 > 
@@ -32,6 +32,31 @@ The limitations of this approach are:
    - A new offer will only be outputted after a time period ( equal to the update period in the worst case).
    - Ets tables are not persistent and are stored in your ram, so it can't grow forever.
 
+### Third Exercise
+
+> To create the base for the API the pretty cool `phx.gen.json` was used
+> 
+> `mix phx.gen.json Jobs Offer offers profession_id:integer contract:string description:string latitude:float longitude:float`
+
+> The API implements the spec by the `offers_in` endpoint, in can be used calling(GET)  `/api/offers_in/latitude/longitude/radius` as in the following example:
+>
+> Ex: http://localhost:4000/api/offers_in/39.3/118.2/100
+
+> All other endpoints are only used for testing the database.
+### Future Enhancements
+- Integrate profession list to the database and use it to enhance the endpoint response.
+
+- Integrate [bryanjos](https://github.com/bryanjos)/**[geo_postgis](https://github.com/bryanjos/geo_postgis)** dependency in order to enforce geographical coordinate fields and to be able to make queries using distance.
+
+###  Phoenix instructions
+To start your Phoenix server:
+
+  * Install dependencies with `mix deps.get`
+  * Create and migrate your database with `mix ecto.setup`
+  * Install Node.js dependencies with `cd assets && npm install`
+  * Start Phoenix endpoint with `mix phx.server`
+
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
  ### Dependencies 
 -  [pkinney](https://github.com/pkinney)/**[topo](https://github.com/pkinney/topo)**
  A Geometry library for Elixir that calculates spatial relationships between two geometries
@@ -41,14 +66,7 @@ Pretty print tables of Elixir structs and maps
 
 - [dashbitco](https://github.com/dashbitco)/**[nimble_csv](https://github.com/dashbitco/nimble_csv)**
 A simple and fast CSV parsing and dumping library for Elixir.
-
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+- [yltsrc](https://github.com/yltsrc)/**[geocalc](https://github.com/yltsrc/geocalc)**
+A geospatial library for Elixir, handy to work with GPS coordinates  
 
 
