@@ -17,6 +17,7 @@ defmodule WtjJobOffersWeb.Router do
     pipe_through :api
     #for test purposes only
     resources "/offers", OfferController, except: [:new, :edit]
+    get "/offers_in/:lat/:long/:radius", OfferController, :show
   end
 
   scope "/", WtjJobOffersWeb do

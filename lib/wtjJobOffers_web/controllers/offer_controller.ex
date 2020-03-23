@@ -25,6 +25,17 @@ defmodule WtjJobOffersWeb.OfferController do
     render(conn, "show.json", offer: offer)
   end
 
+  def show(conn, %{"lat" => lat, "long" => long, "radius" => r}) do
+    lat = String.to_float(lat)
+    long= String.to_float(long)
+    {r,_} =  Float.parse(r)
+
+    offers = Jobs.list_offers_inside(lat,long,r)
+
+    render(conn,"index.json", offers: offers)
+
+  end
+
   def update(conn, %{"id" => id, "offer" => offer_params}) do
     offer = Jobs.get_offer!(id)
 
@@ -32,6 +43,7 @@ defmodule WtjJobOffersWeb.OfferController do
       render(conn, "show.json", offer: offer)
     end
   end
+
 
   def delete(conn, %{"id" => id}) do
     offer = Jobs.get_offer!(id)
