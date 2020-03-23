@@ -30,9 +30,13 @@ defmodule WtjJobOffersWeb.OfferController do
     long= String.to_float(long)
     {r,_} =  Float.parse(r)
 
-    offers = Jobs.list_offers_inside(lat,long,r)
+    response = Jobs.list_offers_inside(lat,long,r)
+             |> Enum.map(fn offer -> 
+                distance = Geocalc.distance_between([lat,long],[offer.latitude,offer.longitude]) # in meters
+                Map.put(offer,:distance,distance/1000)
+             end)
 
-    render(conn,"index.json", offers: offers)
+    render(conn,"show.json", offers_found: response)
 
   end
 

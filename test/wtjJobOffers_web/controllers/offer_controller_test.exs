@@ -109,8 +109,11 @@ defmodule WtjJobOffersWeb.OfferControllerTest do
                "description" => "some description",
                "latitude" => 48.5,
                "longitude" => 2.5,
-               "profession_id" => 42
-             }] = json_response(conn, 200)["data"]
+               "profession_id" => 42,
+              "distance" => distance
+      }] = json_response(conn, 200)["data"]
+
+        assert distance < 100
     end
 
     test "gives offers in a invalid radius", %{conn: conn, offer: offer} do
