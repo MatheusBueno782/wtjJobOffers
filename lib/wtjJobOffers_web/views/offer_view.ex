@@ -11,12 +11,14 @@ defmodule WtjJobOffersWeb.OfferView do
   end
 
   def render("offer.json", %{offer: offer}) do
-    %{id: offer.id,
+    %{
+      id: offer.id,
       profession_id: offer.profession_id,
       contract: offer.contract,
       description: offer.description,
       latitude: offer.latitude,
-      longitude: offer.longitude}
+      longitude: offer.longitude
+    }
   end
 
   def render("show.json", %{offers_found: offers}) do
@@ -24,7 +26,8 @@ defmodule WtjJobOffersWeb.OfferView do
   end
 
   def render("offer_found.json", %{offer: offer}) do
-    %{id: offer.id,
+    %{
+      id: offer.id,
       profession_id: offer.profession_id,
       contract: offer.contract,
       description: offer.description,

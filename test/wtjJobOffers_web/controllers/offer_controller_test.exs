@@ -18,7 +18,13 @@ defmodule WtjJobOffersWeb.OfferControllerTest do
     longitude: 10.7,
     profession_id: 43
   }
-  @invalid_attrs %{contract: nil, description: nil, latitude: nil, longitude: nil, profession_id: nil}
+  @invalid_attrs %{
+    contract: nil,
+    description: nil,
+    latitude: nil,
+    longitude: nil,
+    profession_id: nil
+  }
 
   def fixture(:offer) do
     {:ok, offer} = Jobs.create_offer(@create_attrs)
@@ -101,23 +107,25 @@ defmodule WtjJobOffersWeb.OfferControllerTest do
     setup [:create_offer]
 
     test "gives offers in a valid radius", %{conn: conn, offer: offer} do
-      conn = get(conn, Routes.offer_path(conn,:show, "48.8659387","2.34532","100"))
+      conn = get(conn, Routes.offer_path(conn, :show, "48.8659387", "2.34532", "100"))
 
-      assert [%{
-               "id" => id,
-               "contract" => "some contract",
-               "description" => "some description",
-               "latitude" => 48.5,
-               "longitude" => 2.5,
-               "profession_id" => 42,
-              "distance" => distance
-      }] = json_response(conn, 200)["data"]
+      assert [
+               %{
+                 "id" => id,
+                 "contract" => "some contract",
+                 "description" => "some description",
+                 "latitude" => 48.5,
+                 "longitude" => 2.5,
+                 "profession_id" => 42,
+                 "distance" => distance
+               }
+             ] = json_response(conn, 200)["data"]
 
-        assert distance < 100
+      assert distance < 100
     end
 
     test "gives offers in a invalid radius", %{conn: conn, offer: offer} do
-      conn = get(conn, Routes.offer_path(conn,:show, "48.8659387","2.34532","-100"))
+      conn = get(conn, Routes.offer_path(conn, :show, "48.8659387", "2.34532", "-100"))
 
       assert [] = json_response(conn, 200)["data"]
     end

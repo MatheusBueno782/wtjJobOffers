@@ -6,9 +6,27 @@ defmodule WtjJobOffers.JobsTest do
   describe "offers" do
     alias WtjJobOffers.Jobs.Offer
 
-    @valid_attrs %{contract: "some contract", description: "some description", latitude: 120.5, longitude: 120.5, profession_id: 42}
-    @update_attrs %{contract: "some updated contract", description: "some updated description", latitude: 456.7, longitude: 456.7, profession_id: 43}
-    @invalid_attrs %{contract: nil, description: nil, latitude: nil, longitude: nil, profession_id: nil}
+    @valid_attrs %{
+      contract: "some contract",
+      description: "some description",
+      latitude: 120.5,
+      longitude: 120.5,
+      profession_id: 42
+    }
+    @update_attrs %{
+      contract: "some updated contract",
+      description: "some updated description",
+      latitude: 456.7,
+      longitude: 456.7,
+      profession_id: 43
+    }
+    @invalid_attrs %{
+      contract: nil,
+      description: nil,
+      latitude: nil,
+      longitude: nil,
+      profession_id: nil
+    }
 
     def offer_fixture(attrs \\ %{}) do
       {:ok, offer} =

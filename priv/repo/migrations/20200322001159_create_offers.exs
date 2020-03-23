@@ -11,6 +11,5 @@ defmodule WtjJobOffers.Repo.Migrations.CreateOffers do
 
       timestamps()
     end
-
   end
 end

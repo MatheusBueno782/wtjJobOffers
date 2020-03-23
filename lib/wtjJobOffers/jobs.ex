@@ -21,12 +21,12 @@ defmodule WtjJobOffers.Jobs do
     Repo.all(Offer)
   end
 
-  #Returns the list of offers inside a radius
-  def list_offers_inside(lat,long,radius) do
-    #TODO: use postgis dep to directly query and enforces lat,long contrains 
+  # Returns the list of offers inside a radius
+  def list_offers_inside(lat, long, radius) do
+    # TODO: use postgis dep to directly query and enforces lat,long contrains 
 
     Repo.all(Offer)
-    |> Enum.filter(&(Geocalc.within?(radius*1_000,[lat,long],[&1.latitude,&1.longitude])))
+    |> Enum.filter(&Geocalc.within?(radius * 1_000, [lat, long], [&1.latitude, &1.longitude]))
   end
 
   @doc """

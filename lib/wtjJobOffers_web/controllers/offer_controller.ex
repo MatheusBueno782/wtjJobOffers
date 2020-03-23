@@ -26,18 +26,19 @@ defmodule WtjJobOffersWeb.OfferController do
   end
 
   def show(conn, %{"lat" => lat, "long" => long, "radius" => r}) do
-    {lat,_} = Float.parse(lat)
-    {long,_} = Float.parse(long)
-    {r,_} =  Float.parse(r)
+    {lat, _} = Float.parse(lat)
+    {long, _} = Float.parse(long)
+    {r, _} = Float.parse(r)
 
-    response = Jobs.list_offers_inside(lat,long,r)
-             |> Enum.map(fn offer -> 
-                distance = Geocalc.distance_between([lat,long],[offer.latitude,offer.longitude]) # in meters
-                Map.put(offer,:distance,distance/1000)
-             end)
+    response =
+      Jobs.list_offers_inside(lat, long, r)
+      |> Enum.map(fn offer ->
+        # in meters
+        distance = Geocalc.distance_between([lat, long], [offer.latitude, offer.longitude])
+        Map.put(offer, :distance, distance / 1000)
+      end)
 
-    render(conn,"show.json", offers_found: response)
-
+    render(conn, "show.json", offers_found: response)
   end
 
   def update(conn, %{"id" => id, "offer" => offer_params}) do
@@ -47,7 +48,6 @@ defmodule WtjJobOffersWeb.OfferController do
       render(conn, "show.json", offer: offer)
     end
   end
-
 
   def delete(conn, %{"id" => id}) do
     offer = Jobs.get_offer!(id)

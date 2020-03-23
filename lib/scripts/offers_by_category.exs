@@ -147,7 +147,8 @@ id2group =
   |> Enum.reduce(%{}, fn [id, _, group], acc ->
     Map.put(acc, id, String.upcase(group))
   end)
-  #|> IO.inspect()
+
+# |> IO.inspect()
 
 # build the frequece map that will be used to draw the table
 frequency_map =
@@ -155,7 +156,7 @@ frequency_map =
   |> MyParser.parse_stream()
   |> Enum.reject(fn line -> "" in line end)
   |> Enum.reduce(%{}, fn [prof_id, _, _, lat, long], acc ->
-    #IO.inspect({prof_id, String.to_float(lat), String.to_float(long)})
+    # IO.inspect({prof_id, String.to_float(lat), String.to_float(long)})
 
     case get_continent.(%{
            type: "Point",
@@ -167,25 +168,24 @@ frequency_map =
       continent ->
         group = id2group[prof_id]
 
-        Map.update(acc, continent, %{"" => continent, "TOTAL" => 1,group => 1}, fn groups ->
+        Map.update(acc, continent, %{"" => continent, "TOTAL" => 1, group => 1}, fn groups ->
           Map.update(groups, group, 1, &(&1 + 1))
           # continent's total
           |> Map.update!("TOTAL", &(&1 + 1))
         end)
         # group totals
-        |> Map.update("TOTAL",%{""=> "TOTAL", "TOTAL" => 1,group => 1}, fn totals -> 
-          Map.update(totals,group,1,&(&1 + 1))
+        |> Map.update("TOTAL", %{"" => "TOTAL", "TOTAL" => 1, group => 1}, fn totals ->
+          Map.update(totals, group, 1, &(&1 + 1))
           # global total
           |> Map.update!("TOTAL", &(&1 + 1))
         end)
     end
   end)
-  # build table << Scribe saves lifes >>
+
+# build table << Scribe saves lifes >>
 frequency_map
-  |> Map.values
-  |> Scribe.format(style: Scribe.Style.Pseudo)
-  |> String.replace("\""," ")
-  |> String.replace("nil",IO.ANSI.yellow() <> "0" <> "  ")
-  |> IO.puts 
-
-
+|> Map.values()
+|> Scribe.format(style: Scribe.Style.Pseudo)
+|> String.replace("\"", " ")
+|> String.replace("nil", IO.ANSI.yellow() <> "0" <> "  ")
+|> IO.puts()
